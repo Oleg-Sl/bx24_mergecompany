@@ -9,7 +9,7 @@ from .fields_merge import FieldsMergeUpdate
 # Логгер - ОШИБКА ОБЪЕДИНЕНИЯ КОМПАНИЙ
 logger_1 = logging.getLogger('log-1')
 logger_1.setLevel(logging.INFO)
-fh_1 = logging.handlers.TimedRotatingFileHandler('../v2/access.log', when='D', interval=1)
+fh_1 = logging.handlers.TimedRotatingFileHandler('./log/v2/access.log', when='D', interval=1)
 formatter_1 = logging.Formatter(fmt='[%(asctime)s] %(levelname).1s %(message)s', datefmt='%Y.%m.%d %H:%M:%S')
 fh_1.setFormatter(formatter_1)
 logger_1.addHandler(fh_1)
