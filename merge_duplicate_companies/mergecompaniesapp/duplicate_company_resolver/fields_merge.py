@@ -23,10 +23,10 @@ class FieldsFirstNonEmpty:
 
 
 
-        for id_contact in self.ids_sort_date[::-1]:
-            value = self.contacts[id_contact].get(field)
-            if value:
-                return value
+        # for id_contact in self.ids_sort_date[::-1]:
+        #     value = self.contacts[id_contact].get(field)
+        #     if value:
+        #         return value
 
 
 class FieldsTypeCrmMultifield:
