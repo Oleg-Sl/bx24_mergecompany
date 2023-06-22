@@ -83,11 +83,11 @@ class FieldsMergeUpdate(FieldsTypeCrmMultifield, FieldsFirstNonEmpty):
                 field_content = self.crm_multifield(field)
                 if field_content:
                     data[field] = field_content
-                logger_1.info({
-                    "crm_multifield": "",
-                    "field": field,
-                    "field_content": field_content,
-                })
+                # logger_1.info({
+                #     "crm_multifield": "",
+                #     "field": field,
+                #     "field_content": field_content,
+                # })
             elif field_data['type'] == 'file':
                 continue
                 # field_content = contacts_update.get_field_type_file(field)
@@ -97,9 +97,9 @@ class FieldsMergeUpdate(FieldsTypeCrmMultifield, FieldsFirstNonEmpty):
                 field_content = self.crm_non_empty(field)
                 if field_content:
                     data[field] = field_content
-                logger_1.info({
-                    "crm_non_empty": "",
-                    "field": field,
-                    "field_content": field_content,
-                })
+                # logger_1.info({
+                #     "crm_non_empty": "",
+                #     "field": field,
+                #     "field_content": field_content,
+                # })
         return data

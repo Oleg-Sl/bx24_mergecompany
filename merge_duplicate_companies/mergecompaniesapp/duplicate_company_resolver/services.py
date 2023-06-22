@@ -120,7 +120,37 @@ def get_companies_data(bx24, companies_ids):
     return result.get("result", {}).get("result", {})
 
 
+def update_duplicates(bx24, companies_ids, fields_date_new):
+    cmd = {}
+    for company_id in companies_ids, fields_date_new:
+        cmd[company_id] = formation_request_update_data_company(company_id, fields_date_new)
 
+    result = bx24.batch_2({
+        "halt": 0,
+        "cmd": cmd
+    })
+
+    # if not result or not result.get("result", None) or not result["result"].get("result", None):
+    #     return None
+    #
+    return result.get("result", {}).get("result", {})
+
+
+# получает ID компании и поля с обновляемыми данными, возвращает сформированный запрос обновления компании
+def formation_request_update_data_company(company_id, data):
+    command = f"crm.company.update?ID={company_id}"
+    for field in data:
+        if isinstance(data[field], list):
+            for index, element in enumerate(data[field]):
+                if isinstance(element, dict):
+                    command += f'&fields[{field}][{index}][VALUE]={element["VALUE"]}'
+                    command += f'&fields[{field}][{index}][VALUE_TYPE]={element["VALUE_TYPE"]}'
+                else:
+                    command += f'&fields[{field}][{index}][VALUE]={element}'
+        else:
+            command += f'&fields[{field}]={data[field]}'
+
+    return command
 
 
 
