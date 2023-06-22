@@ -102,4 +102,4 @@ class FieldsMergeUpdate(FieldsTypeCrmMultifield, FieldsFirstNonEmpty):
                     "field": field,
                     "field_content": field_content,
                 })
-
+        return data
