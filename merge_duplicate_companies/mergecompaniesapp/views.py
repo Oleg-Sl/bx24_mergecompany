@@ -13,7 +13,7 @@ import re
 from .service import write_app_data_to_file
 # from . import service, bitrix24
 # from .service import MyException
-from .tasks import merge_run_task
+from .tasks import merge_run_task, merge_run_task_2
 
 
 # Логгер всех входящих запросов
@@ -91,7 +91,7 @@ class MergeDuplicateCompaniesApiView(views.APIView):
             return Response(f"The company with the id={id_company} is on the ignore list", status=status.HTTP_200_OK)
 
         # добавление ID компании в очередь на объединение
-        merge_run_task.delay(id_company)
+        merge_run_task_2.delay(id_company)
 
         return Response("OK", status=status.HTTP_200_OK)
 
