@@ -37,7 +37,12 @@ def find_and_merge_duplicates(id_company):
     for companies_ids in duplicates_ids:
         # получение данных сделок
         result = services.get_companies_data(bx24, companies_ids)
-        fields_merge = FieldsMergeUpdate(bx24, [{key: val} for key, val in result.items() if key in companies_ids], result["fields"])
+        logger_1.info({
+            "companies_ids": companies_ids,
+            "companies_data": [{key: val} for key, val in result.items() if key in companies_ids],
+            "fields": result["fields"]
+        })
+        fields_merge = FieldsMergeUpdate(bx24, companies_ids, [{key: val} for key, val in result.items() if key in companies_ids], result["fields"])
         # данные для объединения
         fields_date_new = fields_merge.get_data()
         logger_1.info({
