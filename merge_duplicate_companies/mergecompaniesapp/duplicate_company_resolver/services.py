@@ -1,7 +1,18 @@
+import logging
+
+
 # Список ID компаний объединение которых запрещено
 LIST_COMPANY_IDS_IGNORED = []
 # Список ИНН компаний объединение которых запрещено
 LIST_COMPANY_INN_IGNORED = ["5407207664", "5407473338", ]
+
+# Логгер - ОШИБКА ОБЪЕДИНЕНИЯ КОМПАНИЙ
+logger_1 = logging.getLogger('log-1')
+logger_1.setLevel(logging.INFO)
+fh_1 = logging.handlers.TimedRotatingFileHandler('./logs/v2/access.log', when='D', interval=1)
+formatter_1 = logging.Formatter(fmt='[%(asctime)s] %(levelname).1s %(message)s', datefmt='%Y.%m.%d %H:%M:%S')
+fh_1.setFormatter(formatter_1)
+logger_1.addHandler(fh_1)
 
 
 # возвращает список компаний с одинаковым ИНН
@@ -122,13 +133,18 @@ def get_companies_data(bx24, companies_ids):
 
 def update_duplicates(bx24, companies_ids, fields_date_new):
     cmd = {}
-    for company_id in companies_ids, fields_date_new:
+    for company_id in companies_ids:
         cmd[company_id] = formation_request_update_data_company(company_id, fields_date_new)
 
+    logger_1.info({
+        "companies_ids": companies_ids,
+        "result_update": result_update,
+    })
     result = bx24.batch_2({
         "halt": 0,
         "cmd": cmd
     })
+
 
     # if not result or not result.get("result", None) or not result["result"].get("result", None):
     #     return None
