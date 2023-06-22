@@ -31,6 +31,8 @@ def find_and_merge_duplicates(id_company):
 
     logger_1.info({
         "id_company": id_company,
+        "companies": companies,
+        "companies_filter": companies_filter,
         "duplicates_ids": duplicates_ids,
     })
 
