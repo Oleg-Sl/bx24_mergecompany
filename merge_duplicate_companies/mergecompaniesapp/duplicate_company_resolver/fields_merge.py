@@ -1,5 +1,15 @@
 import os
 import base64
+import logging
+
+
+# Логгер - ОШИБКА ОБЪЕДИНЕНИЯ КОМПАНИЙ
+logger_1 = logging.getLogger('log-1')
+logger_1.setLevel(logging.INFO)
+fh_1 = logging.handlers.TimedRotatingFileHandler('./logs/v2/access.log', when='D', interval=1)
+formatter_1 = logging.Formatter(fmt='[%(asctime)s] %(levelname).1s %(message)s', datefmt='%Y.%m.%d %H:%M:%S')
+fh_1.setFormatter(formatter_1)
+logger_1.addHandler(fh_1)
 
 
 class FieldsFirstNonEmpty:
@@ -73,6 +83,11 @@ class FieldsMergeUpdate(FieldsTypeCrmMultifield, FieldsFirstNonEmpty):
                 field_content = self.crm_multifield(field)
                 if field_content:
                     data[field] = field_content
+                logger_1.info({
+                    "crm_multifield": "",
+                    "field": field,
+                    "field_content": field_content,
+                })
             elif field_data['type'] == 'file':
                 continue
                 # field_content = contacts_update.get_field_type_file(field)
@@ -82,4 +97,9 @@ class FieldsMergeUpdate(FieldsTypeCrmMultifield, FieldsFirstNonEmpty):
                 field_content = self.crm_non_empty(field)
                 if field_content:
                     data[field] = field_content
+                logger_1.info({
+                    "crm_non_empty": "",
+                    "field": field,
+                    "field_content": field_content,
+                })
 
