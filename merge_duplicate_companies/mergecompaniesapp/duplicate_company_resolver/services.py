@@ -137,8 +137,7 @@ def update_duplicates(bx24, companies_ids, fields_date_new):
         cmd[company_id] = formation_request_update_data_company(company_id, fields_date_new)
 
     logger_1.info({
-        "companies_ids": companies_ids,
-        "result_update": result_update,
+        "cmd": cmd,
     })
     result = bx24.batch_2({
         "halt": 0,
