@@ -99,6 +99,8 @@ class FieldsMergeUpdate(FieldsTypeCrmMultifield, FieldsFirstNonEmpty):
                     data[field] = field_content
                 logger_1.info({
                     "crm_non_empty": "",
+                    "self.ids_sort": self.ids_sort,
+                    "self.ids": self.ids,
                     "field": field,
                     "field_content": field_content,
                 })

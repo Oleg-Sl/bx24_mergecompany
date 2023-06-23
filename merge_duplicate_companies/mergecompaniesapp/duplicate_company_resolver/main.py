@@ -45,6 +45,7 @@ def find_and_merge_duplicates(id_company):
 
         if not isinstance(companies_ids, list) or len(companies_ids) < 2:
             return
+
         # получение данных сделок
         result = services.get_companies_data(bx24, companies_ids)
         fields_merge = FieldsMergeUpdate(bx24, companies_ids, {key: val for key, val in result.items() if key in companies_ids}, result["fields"])
