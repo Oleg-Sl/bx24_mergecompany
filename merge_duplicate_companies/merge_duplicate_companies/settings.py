@@ -53,6 +53,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'merge_duplicate_companies.middleware.RequestFilterMiddleware'
 ]
 
 ROOT_URLCONF = 'merge_duplicate_companies.urls'

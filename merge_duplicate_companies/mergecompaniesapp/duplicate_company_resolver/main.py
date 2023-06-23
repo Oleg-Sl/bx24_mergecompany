@@ -1,6 +1,8 @@
 import logging
 
+from django.core.cache import cache
 from django.conf import settings
+
 from .. import bitrix24
 from . import services
 from .fields_merge import FieldsMergeUpdate
@@ -37,6 +39,10 @@ def find_and_merge_duplicates(id_company):
     })
 
     for companies_ids in duplicates_ids:
+        for company_id in companies_ids:
+            cache_key = f'request_{company_id}'
+            cache.set(cache_key, True, timeout=60)  # Хранить данные в кэше на 60 секунд
+
         if not isinstance(companies_ids, list) or len(companies_ids) < 2:
             return
         # получение данных сделок
@@ -79,26 +85,26 @@ def find_and_merge_duplicates(id_company):
     #     result_update.append(result_merge)
 
 
-def merge_fields_companies(bx24, fields, companies):
-    # if 2 <= len(companies) <= 4:
-    #     result = merge(bx24, companies)
-    #     return result
-
-    data = {}  # {"field_1": "val_1", "field_2": "val_2", ...}
-    for field, field_data in fields.items():
-        if field_data['isReadOnly'] is True:
-            continue
-        elif field_data['type'] == 'crm_multifield':
-            field_content = contacts_update.get_field_type_crm_multifield(field)
-            if field_content:
-                data[field] = field_content
-        elif field_data['type'] == 'file':
-            field_content = contacts_update.get_field_type_file(field)
-            if field_content:
-                data[field] = field_content
-        else:
-            field_content = contacts_update.get_field_non_empty(field)
-            if field_content:
-                data[field] = field_content
-    return 1
+# def merge_fields_companies(bx24, fields, companies):
+#     # if 2 <= len(companies) <= 4:
+#     #     result = merge(bx24, companies)
+#     #     return result
+#
+#     data = {}  # {"field_1": "val_1", "field_2": "val_2", ...}
+#     for field, field_data in fields.items():
+#         if field_data['isReadOnly'] is True:
+#             continue
+#         elif field_data['type'] == 'crm_multifield':
+#             field_content = contacts_update.get_field_type_crm_multifield(field)
+#             if field_content:
+#                 data[field] = field_content
+#         elif field_data['type'] == 'file':
+#             field_content = contacts_update.get_field_type_file(field)
+#             if field_content:
+#                 data[field] = field_content
+#         else:
+#             field_content = contacts_update.get_field_non_empty(field)
+#             if field_content:
+#                 data[field] = field_content
+#     return 1
 
