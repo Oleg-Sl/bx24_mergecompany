@@ -136,9 +136,9 @@ def update_duplicates(bx24, companies_ids, fields_date_new):
     for company_id in companies_ids:
         cmd[company_id] = formation_request_update_data_company(company_id, fields_date_new)
 
-    logger_1.info({
-        "cmd": cmd,
-    })
+    # logger_1.info({
+    #     "cmd": cmd,
+    # })
     result = bx24.batch_2({
         "halt": 0,
         "cmd": cmd
@@ -150,6 +150,19 @@ def update_duplicates(bx24, companies_ids, fields_date_new):
     #
     return result.get("result", {}).get("result", {})
 
+
+def merge_duplicates(bx24, duplicates):
+    cmd = {}
+    for companies_ids in duplicates:
+        companies_str = ",".join(companies_ids)
+        cmd[companies_str] = f"crm.entity.mergeBatch?params[entityTypeId]=4&params[entityTypeId]={companies_str}"
+
+    result = bx24.batch_2({
+        "halt": 0,
+        "cmd": cmd
+    })
+
+    return result.get("result", {}).get("result", {})
 
 # получает ID компании и поля с обновляемыми данными, возвращает сформированный запрос обновления компании
 def formation_request_update_data_company(company_id, data):

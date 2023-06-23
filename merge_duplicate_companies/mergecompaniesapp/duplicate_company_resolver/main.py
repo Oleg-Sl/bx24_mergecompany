@@ -31,12 +31,12 @@ def find_and_merge_duplicates(id_company):
     # список сгруппированных ID дубликатов компаний [[id_1, id_2, ...], [id_10, id_20, ...], ...]
     duplicates_ids = services.group_companies_for_merging(companies_filter)
 
-    logger_1.info({
-        "id_company": id_company,
-        "companies": companies,
-        "companies_filter": companies_filter,
-        "duplicates_ids": duplicates_ids,
-    })
+    # logger_1.info({
+    #     "id_company": id_company,
+    #     "companies": companies,
+    #     "companies_filter": companies_filter,
+    #     "duplicates_ids": duplicates_ids,
+    # })
 
     for companies_ids in duplicates_ids:
         for company_id in companies_ids:
@@ -64,6 +64,12 @@ def find_and_merge_duplicates(id_company):
         #     "result_update": result_update,
         # })
 
+    # объединение компаний
+    result_merge = services.merge_duplicates(bx24, duplicates_ids)
+    logger_1.info({
+        "companies_ids": companies_ids,
+        "result_merge": result_merge,
+    })
 
     # # удаление из списка игнорируемых компаний
     # for company in companies:
