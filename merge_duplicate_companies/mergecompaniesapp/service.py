@@ -580,7 +580,7 @@ def verification_merge_company(bx24, id_real, companies_ids, company_data_old):
 
 # Удаление списка компаний
 def deleteCompanies(bx24, id_real, companies_ids, update_data_company):
-    cmd = {};
+    cmd = {}
     for ident in companies_ids:
         if ident != id_real:
             cmd[ident] = f"crm.company.delete?ID={ident}"

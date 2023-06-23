@@ -183,6 +183,32 @@ def merge_duplicates(bx24, duplicates):
     # })
     # return result.get("result", {}).get("result", {})
 
+from ..service import get_token
+def send_msg_merge_companies(bx24, users, companies_ids, companies_data):
+    cmd = {}
+    users_ids = []
+    company_title = companies_data.get(companies_ids[0], {}).get("TITLE")
+    companies_title = []
+
+    for company_id in companies_ids[1]:
+        companies_title.append(companies_data.get(company_id, {}).get("TITLE"))
+        users_ids.append(companies_data.get(company_id, {}).get("ASSIGNED_BY_ID"))
+
+    # users = list(set(update_data_company['responsible']))
+    domain = get_token().get("domain", "atonlab.bitrix24.ru")
+    url_real_company = f"https://{domain}/crm/company/details/{companies_ids[0]}/"
+    for user_id in users_ids:
+        key = f"MSG{user_id}"
+        message = f"Компании {', '.join(companies_title)} объединились в компанию {company_title}"
+        cmd[key] = f"im.notify.personal.add?USER_ID={user_id}&MESSAGE={message}&ATTACH[0][LINK][NAME]={company_title}&ATTACH[0][LINK][DESC]=&ATTACH[0][LINK][LINK]={url_real_company}"
+
+    response = bx24.batch_2({
+        "halt": 0,
+        "cmd": cmd
+    })
+    return response
+
+
 # получает ID компании и поля с обновляемыми данными, возвращает сформированный запрос обновления компании
 def formation_request_update_data_company(company_id, data):
     command = f"crm.company.update?ID={company_id}"
