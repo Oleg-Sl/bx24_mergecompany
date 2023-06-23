@@ -65,6 +65,7 @@ def find_and_merge_duplicates(id_company):
         #     "companies_ids": companies_ids,
         #     "result_update": result_update,
         # })
+        services.send_msg_merge_companies(bx24, companies_ids, companies_data)
 
     # объединение компаний
     result_merge = services.merge_duplicates(bx24, duplicates_ids)
@@ -72,7 +73,7 @@ def find_and_merge_duplicates(id_company):
         "companies_ids": companies_ids,
         "result_merge": result_merge,
     })
-    services.send_msg_merge_companies(bx24, companies_ids, data)
+    # services.send_msg_merge_companies(bx24, companies_ids, data)
 
     # # удаление из списка игнорируемых компаний
     # for company in companies:
