@@ -190,9 +190,14 @@ def send_msg_merge_companies(bx24, companies_ids, companies_data):
     company_title = companies_data.get(companies_ids[0], {}).get("TITLE")
     companies_title = []
 
-    for company_id in companies_ids[1]:
+    for company_id in companies_ids[1:]:
         companies_title.append(companies_data.get(company_id, {}).get("TITLE"))
         users_ids.append(companies_data.get(company_id, {}).get("ASSIGNED_BY_ID"))
+    logger_1.info({
+        "companies_title": companies_title,
+        "company_title": company_title,
+        "users_ids": users_ids,
+    })
 
     # users = list(set(update_data_company['responsible']))
     domain = get_token().get("domain", "atonlab.bitrix24.ru")
