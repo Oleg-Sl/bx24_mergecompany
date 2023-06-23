@@ -161,7 +161,8 @@ def formation_request_update_data_company(company_id, data):
                     command += f'&fields[{field}][{index}][VALUE]={element["VALUE"]}'
                     command += f'&fields[{field}][{index}][VALUE_TYPE]={element["VALUE_TYPE"]}'
                 else:
-                    command += f'&fields[{field}][{index}][VALUE]={element}'
+                    command += f'&fields[{field}][{index}]={element}'
+                    # command += f'&fields[{field}][{index}][VALUE]={element}'
         else:
             command += f'&fields[{field}]={data[field]}'
 
