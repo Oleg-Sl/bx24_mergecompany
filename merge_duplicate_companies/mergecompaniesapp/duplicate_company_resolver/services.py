@@ -202,6 +202,9 @@ def send_msg_merge_companies(bx24, users, companies_ids, companies_data):
         message = f"Компании {', '.join(companies_title)} объединились в компанию {company_title}"
         cmd[key] = f"im.notify.personal.add?USER_ID={user_id}&MESSAGE={message}&ATTACH[0][LINK][NAME]={company_title}&ATTACH[0][LINK][DESC]=&ATTACH[0][LINK][LINK]={url_real_company}"
 
+    logger_1.info({
+        "cmd": cmd,
+    })
     response = bx24.batch_2({
         "halt": 0,
         "cmd": cmd
