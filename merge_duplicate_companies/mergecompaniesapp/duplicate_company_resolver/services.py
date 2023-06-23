@@ -171,6 +171,8 @@ def merge_duplicates(bx24, duplicates):
         )
         result_merge[companies_str] = result
 
+    return result_merge
+
     # result = bx24.batch_2({
     #     "halt": 0,
     #     "cmd": cmd
