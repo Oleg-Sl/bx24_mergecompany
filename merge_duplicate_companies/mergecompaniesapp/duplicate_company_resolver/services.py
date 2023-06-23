@@ -184,7 +184,7 @@ def merge_duplicates(bx24, duplicates):
     # return result.get("result", {}).get("result", {})
 
 from ..service import get_token
-def send_msg_merge_companies(bx24, users, companies_ids, companies_data):
+def send_msg_merge_companies(bx24, companies_ids, companies_data):
     cmd = {}
     users_ids = []
     company_title = companies_data.get(companies_ids[0], {}).get("TITLE")
