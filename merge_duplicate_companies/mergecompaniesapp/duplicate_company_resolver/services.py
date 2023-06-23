@@ -199,7 +199,7 @@ def send_msg_merge_companies(bx24, companies_ids, companies_data):
     url_real_company = f"https://{domain}/crm/company/details/{companies_ids[0]}/"
     for user_id in users_ids:
         key = f"MSG{user_id}"
-        message = f"Компании {', '.join(companies_title)} объединились в компанию {company_title}"
+        message = f"Компании {', '.join([str(title) for title in companies_title])} объединились в компанию {company_title}"
         cmd[key] = f"im.notify.personal.add?USER_ID={user_id}&MESSAGE={message}&ATTACH[0][LINK][NAME]={company_title}&ATTACH[0][LINK][DESC]=&ATTACH[0][LINK][LINK]={url_real_company}"
 
     logger_1.info({
