@@ -22,7 +22,7 @@ class FieldsFirstNonEmpty:
         # если в списке не одинаковые элементы
         if not all(element == values[0] for element in values):
             for val_ in values:
-                if val_ is not None and val_ != "":
+                if val_ is not None and val_ != "" and val_ != [] and val_ != {}:
                     return  val_
 
         # # если поле в настоящей компании заполнено,
@@ -97,11 +97,11 @@ class FieldsMergeUpdate(FieldsTypeCrmMultifield, FieldsFirstNonEmpty):
                 field_content = self.crm_non_empty(field)
                 if field_content:
                     data[field] = field_content
-                logger_1.info({
-                    "crm_non_empty": "",
-                    "self.ids_sort": self.ids_sort,
-                    "self.ids": self.ids,
-                    "field": field,
-                    "field_content": field_content,
-                })
+                # logger_1.info({
+                #     "crm_non_empty": "",
+                #     "self.ids_sort": self.ids_sort,
+                #     "self.ids": self.ids,
+                #     "field": field,
+                #     "field_content": field_content,
+                # })
         return data

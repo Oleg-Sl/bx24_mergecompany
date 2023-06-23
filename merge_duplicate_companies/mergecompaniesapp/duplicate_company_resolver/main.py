@@ -51,17 +51,18 @@ def find_and_merge_duplicates(id_company):
         fields_merge = FieldsMergeUpdate(bx24, companies_ids, {key: val for key, val in result.items() if key in companies_ids}, result["fields"])
         # данные для объединения
         fields_date_new = fields_merge.get_data()
-        logger_1.info({
-            "companies_ids": companies_ids,
-            "id_company": id_company,
-            "duplicates_ids": duplicates_ids,
-            "fields_date_new": fields_date_new
-        })
+        # logger_1.info({
+        #     "companies_ids": companies_ids,
+        #     "id_company": id_company,
+        #     "duplicates_ids": duplicates_ids,
+        #     "fields_date_new": fields_date_new
+        # })
+        # приведение полей сделок к одному виду
         result_update = services.update_duplicates(bx24, companies_ids, fields_date_new)
-        logger_1.info({
-            "companies_ids": companies_ids,
-            "result_update": result_update,
-        })
+        # logger_1.info({
+        #     "companies_ids": companies_ids,
+        #     "result_update": result_update,
+        # })
 
 
     # # удаление из списка игнорируемых компаний
