@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """Wrapper over Bitrix24 cloud API"""
-
+import time
 from json import loads
 from logging import info
 from time import sleep
@@ -243,5 +243,30 @@ class Bitrix24:
 
         return self.call_2(params)
 
+    def call_3(self, method, params):
+        try:
+            url = self.api_url % (self.domain, method)
+            url += '?auth=' + self.auth_token
+            headers = {
+                'Content-Type': 'application/json',
+            }
+            r = post(url, data=json.dumps(params), headers=headers, timeout=self.timeout)
+            result = json.loads(r.text)
+        except ValueError:
+            pass
+            result = dict(error='Error on decode api response [%s]' % r.text)
+        except exceptions.ReadTimeout:
+            result = dict(error='Timeout waiting expired [%s sec]' % str(self.timeout))
+        except exceptions.ConnectionError:
+            result = dict(error='Max retries exceeded [' + str(adapters.DEFAULT_RETRIES) + ']')
 
+        if 'error' in result and result['error'] in ('NO_AUTH_FOUND', 'expired_token'):
+            result_update_token = self.refresh_tokens()
+            if result_update_token is not True:
+                return result
+            result = self.call_3(method, params)
+        elif 'error' in result and result['error'] in ['QUERY_LIMIT_EXCEEDED', ]:
+            time.sleep(2)
+            return self.call_3(method, params)
 
+        return result
