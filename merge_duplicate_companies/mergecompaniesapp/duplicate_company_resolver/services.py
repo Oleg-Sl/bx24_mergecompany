@@ -155,7 +155,9 @@ def merge_duplicates(bx24, duplicates):
     cmd = {}
     for companies_ids in duplicates:
         companies_str = ",".join(companies_ids)
-        cmd[companies_str] = f"crm.entity.mergeBatch?params[entityTypeId]=4&params[entityTypeId]={companies_str}"
+        cmd[companies_str] = f"crm.entity.mergeBatch?params[entityTypeId]=4"
+        for company_id in companies_ids:
+            cmd[companies_str] += f"&params[entityTypeId][]={company_id}"
 
     result = bx24.batch_2({
         "halt": 0,
