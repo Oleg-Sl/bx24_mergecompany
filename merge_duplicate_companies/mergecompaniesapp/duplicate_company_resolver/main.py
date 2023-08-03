@@ -19,7 +19,7 @@ logger_access_2.addHandler(fh_access_2)
 # Логгер - ОШИБКА ОБЪЕДИНЕНИЯ КОМПАНИЙ
 logger_1 = logging.getLogger('log-1')
 logger_1.setLevel(logging.INFO)
-fh_1 = logging.handlers.TimedRotatingFileHandler('./logs/v2/errors.log', when='D', interval=1)
+fh_1 = logging.handlers.TimedRotatingFileHandler('./logs/v2/result.log', when='D', interval=1)
 formatter_1 = logging.Formatter(fmt='[%(asctime)s] %(levelname).1s %(message)s', datefmt='%Y.%m.%d %H:%M:%S')
 fh_1.setFormatter(formatter_1)
 logger_1.addHandler(fh_1)
@@ -27,10 +27,10 @@ logger_1.addHandler(fh_1)
 
 # объединение компаний - ДЛЯ ВНЕШНЕГО ВЫЗОВА
 def find_and_merge_duplicates(id_company):
-    logger_access_2.info({
-        "logger_access_2": "1",
-        "id_company": id_company,
-    })
+    # logger_access_2.info({
+    #     "logger_access_2": "1",
+    #     "id_company": id_company,
+    # })
     bx24 = bitrix24.Bitrix24()
     # # результат объединения компаний
     # result_update = []
@@ -80,24 +80,27 @@ def find_and_merge_duplicates(id_company):
         # })
         # приведение полей сделок к одному виду
         result_update = services.update_duplicates(bx24, companies_ids, fields_date_new)
-        logger_access_2.info({
-            "companies_ids": companies_ids,
-            "result_update": result_update,
-        })
+        # logger_access_2.info({
+        #     "companies_ids": companies_ids,
+        #     "result_update": result_update,
+        # })
         services.send_msg_merge_companies(bx24, companies_ids, companies_data)
 
-    logger_access_2.info({
-        "logger_access_2": "3",
-        "id_company": id_company,
-    })
+    # logger_access_2.info({
+    #     "logger_access_2": "3",
+    #     "id_company": id_company,
+    # })
     # объединение компаний
     result_merge = services.merge_duplicates(bx24, duplicates_ids)
 
     logger_1.info({
-
-        "companies_ids": companies_ids,
+        "duplicates_ids": duplicates_ids,
         "result_merge": result_merge,
     })
+    return {
+        "duplicates_ids": duplicates_ids,
+        "result_merge": result_merge,
+    }
     # services.send_msg_merge_companies(bx24, companies_ids, data)
 
     # # удаление из списка игнорируемых компаний
