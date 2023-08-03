@@ -53,6 +53,7 @@ def find_and_merge_duplicates(id_company):
     logger_access_2.info({
         "logger_access_2": "2",
         "id_company": id_company,
+        "duplicates_ids": duplicates_ids,
     })
     for companies_ids in duplicates_ids:
         for company_id in companies_ids:
