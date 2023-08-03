@@ -60,6 +60,14 @@ formatter_test = logging.Formatter(fmt='[%(asctime)s] %(levelname).1s %(message)
 fh_test.setFormatter(formatter_test)
 logger_test.addHandler(fh_test)
 
+# Логгер -
+logger_access_v2 = logging.getLogger('testlog')
+logger_access_v2.setLevel(logging.INFO)
+fh_access_v2 = logging.handlers.TimedRotatingFileHandler('./logs/test.log', when='D', interval=1)
+formatter_access_v2 = logging.Formatter(fmt='[%(asctime)s] %(levelname).1s %(message)s', datefmt='%Y.%m.%d %H:%M:%S')
+fh_access_v2.setFormatter(formatter_access_v2)
+logger_access_v2.addHandler(fh_access_v2)
+
 # Ключи и секреты для авторизации в Битрикс
 path_secret_file = os.path.join(settings.BASE_DIR, 'secrets.json')
 path_settings_file = os.path.join(settings.BASE_DIR, 'settings_app_bx24.json')
@@ -146,6 +154,10 @@ def get_list_company_ids_with_same_inn(bx24, id_company):
             "INN": f"crm.requisite.list?FILTER[ENTITY_ID]={id_company}&FILTER[ENTITY_TYPE_ID]=4",
             "REQUISITES": f"crm.requisite.list?select[]=ENTITY_ID&select[]=RQ_INN&select[]=RQ_KPP&FILTER[RQ_INN]=$result[INN][0][RQ_INN]&FILTER[ENTITY_TYPE_ID]=4"
         }
+    })
+    logger_access_v2.info({
+        "id_company": id_company,
+        "response": response,
     })
 
     if not response or not response.get("result", None) or not response["result"].get("result", None):
