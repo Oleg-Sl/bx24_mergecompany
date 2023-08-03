@@ -9,9 +9,17 @@ from .fields_merge import FieldsMergeUpdate
 
 
 # Логгер - ОШИБКА ОБЪЕДИНЕНИЯ КОМПАНИЙ
+logger_access_2 = logging.getLogger('log-1')
+logger_access_2.setLevel(logging.INFO)
+fh_access_2 = logging.handlers.TimedRotatingFileHandler('./logs/v2/access.log', when='D', interval=1)
+formatter_access_2 = logging.Formatter(fmt='[%(asctime)s] %(levelname).1s %(message)s', datefmt='%Y.%m.%d %H:%M:%S')
+fh_access_2.setFormatter(formatter_access_2)
+logger_access_2.addHandler(fh_access_2)
+
+# Логгер - ОШИБКА ОБЪЕДИНЕНИЯ КОМПАНИЙ
 logger_1 = logging.getLogger('log-1')
 logger_1.setLevel(logging.INFO)
-fh_1 = logging.handlers.TimedRotatingFileHandler('./logs/v2/access.log', when='D', interval=1)
+fh_1 = logging.handlers.TimedRotatingFileHandler('./logs/v2/errors.log', when='D', interval=1)
 formatter_1 = logging.Formatter(fmt='[%(asctime)s] %(levelname).1s %(message)s', datefmt='%Y.%m.%d %H:%M:%S')
 fh_1.setFormatter(formatter_1)
 logger_1.addHandler(fh_1)
@@ -19,6 +27,9 @@ logger_1.addHandler(fh_1)
 
 # объединение компаний - ДЛЯ ВНЕШНЕГО ВЫЗОВА
 def find_and_merge_duplicates(id_company):
+    logger_1.info({
+        "id_company": id_company,
+    })
     bx24 = bitrix24.Bitrix24()
     # # результат объединения компаний
     # result_update = []
