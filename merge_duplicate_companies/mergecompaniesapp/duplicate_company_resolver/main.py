@@ -57,6 +57,8 @@ def find_and_merge_duplicates(id_company):
         "duplicates_ids": duplicates_ids,
     })
     for companies_ids in duplicates_ids:
+        if not companies_ids:
+            continue
         for company_id in companies_ids:
             cache_key = f'request_{company_id}'
             cache.set(cache_key, True, timeout=60)  # Хранить данные в кэше на 60 секунд
@@ -78,10 +80,10 @@ def find_and_merge_duplicates(id_company):
         # })
         # приведение полей сделок к одному виду
         result_update = services.update_duplicates(bx24, companies_ids, fields_date_new)
-        # logger_1.info({
-        #     "companies_ids": companies_ids,
-        #     "result_update": result_update,
-        # })
+        logger_access_2.info({
+            "companies_ids": companies_ids,
+            "result_update": result_update,
+        })
         services.send_msg_merge_companies(bx24, companies_ids, companies_data)
 
     logger_access_2.info({
