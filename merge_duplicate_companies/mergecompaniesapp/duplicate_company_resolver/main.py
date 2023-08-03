@@ -27,7 +27,7 @@ logger_1.addHandler(fh_1)
 
 # объединение компаний - ДЛЯ ВНЕШНЕГО ВЫЗОВА
 def find_and_merge_duplicates(id_company):
-    logger_1.info({
+    logger_access_2.info({
         "id_company": id_company,
     })
     bx24 = bitrix24.Bitrix24()
