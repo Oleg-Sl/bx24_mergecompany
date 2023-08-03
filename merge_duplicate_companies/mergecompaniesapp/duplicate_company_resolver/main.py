@@ -28,6 +28,7 @@ logger_1.addHandler(fh_1)
 # объединение компаний - ДЛЯ ВНЕШНЕГО ВЫЗОВА
 def find_and_merge_duplicates(id_company):
     logger_access_2.info({
+        "logger_access_2": "1",
         "id_company": id_company,
     })
     bx24 = bitrix24.Bitrix24()
@@ -49,7 +50,10 @@ def find_and_merge_duplicates(id_company):
     #     "companies_filter": companies_filter,
     #     "duplicates_ids": duplicates_ids,
     # })
-
+    logger_access_2.info({
+        "logger_access_2": "2",
+        "id_company": id_company,
+    })
     for companies_ids in duplicates_ids:
         for company_id in companies_ids:
             cache_key = f'request_{company_id}'
@@ -78,9 +82,15 @@ def find_and_merge_duplicates(id_company):
         # })
         services.send_msg_merge_companies(bx24, companies_ids, companies_data)
 
+    logger_access_2.info({
+        "logger_access_2": "3",
+        "id_company": id_company,
+    })
     # объединение компаний
     result_merge = services.merge_duplicates(bx24, duplicates_ids)
+
     logger_1.info({
+
         "companies_ids": companies_ids,
         "result_merge": result_merge,
     })
