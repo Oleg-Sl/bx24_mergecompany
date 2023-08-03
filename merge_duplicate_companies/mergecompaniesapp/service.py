@@ -63,7 +63,7 @@ logger_test.addHandler(fh_test)
 # Логгер -
 logger_access_v2 = logging.getLogger('testlog')
 logger_access_v2.setLevel(logging.INFO)
-fh_access_v2 = logging.handlers.TimedRotatingFileHandler('./logs/test.log', when='D', interval=1)
+fh_access_v2 = logging.handlers.TimedRotatingFileHandler('./logs/get_list_company_ids_with_same_inn/access.log', when='D', interval=1)
 formatter_access_v2 = logging.Formatter(fmt='[%(asctime)s] %(levelname).1s %(message)s', datefmt='%Y.%m.%d %H:%M:%S')
 fh_access_v2.setFormatter(formatter_access_v2)
 logger_access_v2.addHandler(fh_access_v2)
