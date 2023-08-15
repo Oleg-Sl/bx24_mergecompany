@@ -24,6 +24,12 @@ formatter_1 = logging.Formatter(fmt='[%(asctime)s] %(levelname).1s %(message)s',
 fh_1.setFormatter(formatter_1)
 logger_1.addHandler(fh_1)
 
+logger_status = logging.getLogger('status')
+logger_status.setLevel(logging.INFO)
+fh_status = logging.handlers.TimedRotatingFileHandler('./logs/v2/status.log', when='D', interval=1)
+formatter_status = logging.Formatter(fmt='[%(asctime)s] %(levelname).1s %(message)s', datefmt='%Y.%m.%d %H:%M:%S')
+fh_status.setFormatter(formatter_status)
+logger_status.addHandler(fh_status)
 
 
 # объединение компаний - ДЛЯ ВНЕШНЕГО ВЫЗОВА
@@ -51,7 +57,7 @@ def find_and_merge_duplicates(id_company):
     #     "companies_filter": companies_filter,
     #     "duplicates_ids": duplicates_ids,
     # })
-    logger_access_2.info({
+    logger_status.info({
         "logger_access_2": "2",
         "id_company": id_company,
         "companies": companies,
@@ -79,13 +85,13 @@ def find_and_merge_duplicates(id_company):
         #     "duplicates_ids": duplicates_ids,
         #     "fields_date_new": fields_date_new
         # })
-        logger_1.info({
+        logger_status.info({
             "duplicates_ids": duplicates_ids,
             "fields_date_new": fields_date_new,
         })
         # приведение полей сделок к одному виду
         result_update = services.update_duplicates(bx24, companies_ids, fields_date_new)
-        logger_1.info({
+        logger_status.info({
             "duplicates_ids": duplicates_ids,
             "fields_date_new": fields_date_new,
             "result_update": result_update
@@ -103,7 +109,7 @@ def find_and_merge_duplicates(id_company):
     # объединение компаний
     result_merge = services.merge_duplicates(bx24, duplicates_ids)
 
-    logger_1.info({
+    logger_status.info({
         "duplicates_ids": duplicates_ids,
         "result_merge": result_merge,
     })
