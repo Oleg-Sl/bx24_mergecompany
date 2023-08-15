@@ -9,7 +9,7 @@ from .fields_merge import FieldsMergeUpdate
 
 
 # Логгер - ОШИБКА ОБЪЕДИНЕНИЯ КОМПАНИЙ
-logger_access_2 = logging.getLogger('log-1')
+logger_access_2 = logging.getLogger('log-2')
 logger_access_2.setLevel(logging.INFO)
 fh_access_2 = logging.handlers.TimedRotatingFileHandler('./logs/v2/access.log', when='D', interval=1)
 formatter_access_2 = logging.Formatter(fmt='[%(asctime)s] %(levelname).1s %(message)s', datefmt='%Y.%m.%d %H:%M:%S')
@@ -23,6 +23,7 @@ fh_1 = logging.handlers.TimedRotatingFileHandler('./logs/v2/result.log', when='D
 formatter_1 = logging.Formatter(fmt='[%(asctime)s] %(levelname).1s %(message)s', datefmt='%Y.%m.%d %H:%M:%S')
 fh_1.setFormatter(formatter_1)
 logger_1.addHandler(fh_1)
+
 
 
 # объединение компаний - ДЛЯ ВНЕШНЕГО ВЫЗОВА
@@ -80,6 +81,11 @@ def find_and_merge_duplicates(id_company):
         # })
         # приведение полей сделок к одному виду
         result_update = services.update_duplicates(bx24, companies_ids, fields_date_new)
+        logger_1.info({
+            "duplicates_ids": duplicates_ids,
+            "fields_date_new": fields_date_new,
+            "result_update": result_update
+        })
         # logger_access_2.info({
         #     "companies_ids": companies_ids,
         #     "result_update": result_update,
