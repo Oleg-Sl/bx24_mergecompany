@@ -79,6 +79,10 @@ def find_and_merge_duplicates(id_company):
         #     "duplicates_ids": duplicates_ids,
         #     "fields_date_new": fields_date_new
         # })
+        logger_1.info({
+            "duplicates_ids": duplicates_ids,
+            "fields_date_new": fields_date_new,
+        })
         # приведение полей сделок к одному виду
         result_update = services.update_duplicates(bx24, companies_ids, fields_date_new)
         logger_1.info({
