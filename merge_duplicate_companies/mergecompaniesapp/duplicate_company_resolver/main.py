@@ -34,13 +34,7 @@ logger_status.addHandler(fh_status)
 
 # объединение компаний - ДЛЯ ВНЕШНЕГО ВЫЗОВА
 def find_and_merge_duplicates(id_company):
-    # logger_access_2.info({
-    #     "logger_access_2": "1",
-    #     "id_company": id_company,
-    # })
     bx24 = bitrix24.Bitrix24()
-    # # результат объединения компаний
-    # result_update = []
     data = {}
 
     # список реквизитов компаний с одинаковым ИНН: {"ENTITY_ID": ..., "RQ_INN": ..., "RQ_KPP": ...}
@@ -50,13 +44,6 @@ def find_and_merge_duplicates(id_company):
     companies_filter = services.filter_companies(companies)
     # список сгруппированных ID дубликатов компаний [[id_1, id_2, ...], [id_10, id_20, ...], ...]
     duplicates_ids = services.group_companies_for_merging(companies_filter)
-
-    # logger_1.info({
-    #     "id_company": id_company,
-    #     "companies": companies,
-    #     "companies_filter": companies_filter,
-    #     "duplicates_ids": duplicates_ids,
-    # })
     logger_status.info({
         "logger_access_2": "2",
         "id_company": id_company,
@@ -79,16 +66,6 @@ def find_and_merge_duplicates(id_company):
         data.update(companies_data)
         # данные для объединения
         fields_date_new = fields_merge.get_data()
-        # logger_1.info({
-        #     "companies_ids": companies_ids,
-        #     "id_company": id_company,
-        #     "duplicates_ids": duplicates_ids,
-        #     "fields_date_new": fields_date_new
-        # })
-        logger_status.info({
-            "duplicates_ids": duplicates_ids,
-            "fields_date_new": fields_date_new,
-        })
         # приведение полей сделок к одному виду
         # result_update = services.update_duplicates(bx24, companies_ids, fields_date_new)
         result_update = {}
@@ -107,10 +84,7 @@ def find_and_merge_duplicates(id_company):
             "fields_date_new": fields_date_new,
             "result_update": result_update
         })
-        # logger_access_2.info({
-        #     "companies_ids": companies_ids,
-        #     "result_update": result_update,
-        # })
+
         services.send_msg_merge_companies(bx24, companies_ids, companies_data)
 
     # logger_access_2.info({
@@ -120,10 +94,11 @@ def find_and_merge_duplicates(id_company):
     # объединение компаний
     result_merge = services.merge_duplicates(bx24, duplicates_ids)
 
-    logger_status.info({
+    logger_1.info({
         "duplicates_ids": duplicates_ids,
         "result_merge": result_merge,
     })
+
     return {
         "duplicates_ids": duplicates_ids,
         "result_merge": result_merge,

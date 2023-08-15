@@ -33,10 +33,10 @@ def get_list_company_ids_with_same_inn(bx24, id_company):
         }
     })
 
-    logger_access_v2.info({
-        "id_company": id_company,
-        "response": response,
-    })
+    # logger_access_v2.info({
+    #     "id_company": id_company,
+    #     "response": response,
+    # })
 
     # ошибка при получении данных из Битрикс
     if not response or not response.get("result", None) or not response["result"].get("result", None):
@@ -168,6 +168,8 @@ def merge_duplicates(bx24, duplicates):
     # cmd = {}
     result_merge = {}
     for companies_ids in duplicates:
+        if not companies_ids:
+            continue
         companies_str = ",".join(companies_ids)
         # cmd[companies_str] = f"crm.entity.mergeBatch?params[entityTypeId]=4"
         # for company_id in companies_ids:
@@ -197,6 +199,8 @@ def merge_duplicates(bx24, duplicates):
     # return result.get("result", {}).get("result", {})
 
 from ..service import get_token
+
+
 def send_msg_merge_companies(bx24, companies_ids, companies_data):
     cmd = {}
     users_ids = []
