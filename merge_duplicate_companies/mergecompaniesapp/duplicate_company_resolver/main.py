@@ -90,7 +90,18 @@ def find_and_merge_duplicates(id_company):
             "fields_date_new": fields_date_new,
         })
         # приведение полей сделок к одному виду
-        result_update = services.update_duplicates(bx24, companies_ids, fields_date_new)
+        # result_update = services.update_duplicates(bx24, companies_ids, fields_date_new)
+        result_update = {}
+        for company_id_ in companies_ids:
+            result = bx24.call_3(
+                "crm.company.update",
+                {
+                    "id": company_id_,
+                    "fields": fields_date_new
+                }
+            )
+            result_update[company_id_] = result
+
         logger_status.info({
             "duplicates_ids": duplicates_ids,
             "fields_date_new": fields_date_new,
